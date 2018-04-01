@@ -117,6 +117,7 @@ namespace ADO.NET
 
         //    //【4】查询返回结果中第一条数据
         //    string sql = "select count(1) from Course";
+        //    sql = "select  CourseName, CourseHour, Teacher from Course";
         //    SqlCommand cmd = new SqlCommand(sql, conn);
         //    object result = cmd.ExecuteScalar();
 
@@ -212,6 +213,8 @@ namespace ADO.NET
         //        }
         //    }
 
+        //    reader.Close();
+
         //    //【5】关闭数据库连接
         //    conn.Close();
 
@@ -280,62 +283,86 @@ namespace ADO.NET
 
         #region 【7】返回一个内存结果集，导入导出xml文件
 
-        static void Main(string[] args)
-        {
-            // [1]定义连接字符串
-            string connString = "Server=127.0.0.1,1433;DataBase=StudentManageDB;Uid=sa;Pwd=Sa123456";
+        //static void Main(string[] args)
+        //{
+        //    // [1]定义连接字符串
+        //    string connString = "Server=127.0.0.1,1433;DataBase=StudentManageDB;Uid=sa;Pwd=Sa123456";
 
-            //【2】创建数据库连接对象
-            SqlConnection conn = new SqlConnection(connString);
+        //    //【2】创建数据库连接对象
+        //    SqlConnection conn = new SqlConnection(connString);
 
-            //【3】打开数据库连接
-            conn.Open();
+        //    //【3】打开数据库连接
+        //    conn.Open();
 
-            if (conn.State == ConnectionState.Open)
-            {
-                Console.WriteLine("DB is Open!");
-            }
+        //    if (conn.State == ConnectionState.Open)
+        //    {
+        //        Console.WriteLine("DB is Open!");
+        //    }
 
-            //【4】查询返回只读结果集
-            string sql = "select CourseId, CourseName, CourseHour, Teacher from Course";
-            SqlCommand cmd = new SqlCommand(sql, conn);
-
-
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataSet ds = new DataSet();//创建一个内存数据库（可以像数据库一样，里面包含若干的数据表、表的结构和表间关系）
-            adapter.Fill(ds);
-
-            DataTable dt1 = ds.Tables[0];
-            dt1.WriteXml("d1.xml", XmlWriteMode.WriteSchema);//将内存结果集的数据和结构写入到xml文件中
-
-            DataTable dt2 = new DataTable();
-            dt2.ReadXml("d1.xml");
-
-            Console.WriteLine("-----------------------d1结果集------------------------------");
-            foreach (DataRow row in dt1.Rows)
-            {
-                Console.WriteLine("CourseId:{0}, CourseName:{1}, CourseHour:{2}, Tearcher:{3}",
-                    row["CourseId"], row["CourseName"], row["CourseHour"], row["Teacher"]);
-            }
-
-            Console.WriteLine("-----------------------d2结果集------------------------------");
-            foreach (DataRow row in dt2.Rows)
-            {
-                Console.WriteLine("CourseId:{0}, CourseName:{1}, CourseHour:{2}, Tearcher:{3}",
-                    row["CourseId"], row["CourseName"], row["CourseHour"], row["Teacher"]);
-            }
+        //    //【4】查询返回只读结果集
+        //    string sql = "select CourseId, CourseName, CourseHour, Teacher from Course";
+        //    SqlCommand cmd = new SqlCommand(sql, conn);
 
 
-            //【5】关闭数据库连接
-            conn.Close();
+        //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //    DataSet ds = new DataSet();//创建一个内存数据库（可以像数据库一样，里面包含若干的数据表、表的结构和表间关系）
+        //    adapter.Fill(ds);
 
-            if (conn.State == ConnectionState.Closed)
-            {
-                Console.WriteLine("DB is Closed!");
-            }
-            Console.Read();
-        }
+        //    DataTable dt1 = ds.Tables[0];
+        //    dt1.WriteXml("d1.xml", XmlWriteMode.WriteSchema);//将内存结果集的数据和结构写入到xml文件中
+
+        //    DataTable dt2 = new DataTable();
+        //    dt2.ReadXml("d1.xml");
+
+        //    Console.WriteLine("-----------------------d1结果集------------------------------");
+        //    foreach (DataRow row in dt1.Rows)
+        //    {
+        //        Console.WriteLine("CourseId:{0}, CourseName:{1}, CourseHour:{2}, Tearcher:{3}",
+        //            row["CourseId"], row["CourseName"], row["CourseHour"], row["Teacher"]);
+        //    }
+
+        //    Console.WriteLine("-----------------------d2结果集------------------------------");
+        //    foreach (DataRow row in dt2.Rows)
+        //    {
+        //        Console.WriteLine("CourseId:{0}, CourseName:{1}, CourseHour:{2}, Tearcher:{3}",
+        //            row["CourseId"], row["CourseName"], row["CourseHour"], row["Teacher"]);
+        //    }
+
+
+        //    //【5】关闭数据库连接
+        //    conn.Close();
+
+        //    if (conn.State == ConnectionState.Closed)
+        //    {
+        //        Console.WriteLine("DB is Closed!");
+        //    }
+        //    Console.Read();
+        //}
 
         #endregion
+
+
+        #region 使用数据访问类进行只读结果集的查询
+
+        //static void Main(string[] args)
+        //{
+
+        //    Course course = new Course()
+        //    {
+        //        CourseId = 10000
+        //    };
+        //    List<Course> courseList = new CourseService().GetCourseListByReader(course);
+
+        //    foreach (Course item in courseList)
+        //    {
+        //        Console.WriteLine("CourseId:{0}, CourseName:{1}, CourseHour:{2}, Tearcher:{3}",
+        //            item.CourseId, item.CourseName, item.CourseHour, item.Teacher);
+        //    }
+        
+        //    Console.Read();
+        //}
+
+        #endregion
+
     }
 }
